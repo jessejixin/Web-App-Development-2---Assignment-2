@@ -5,6 +5,8 @@ import genresRouter from './api/genres';
 import './db';
 import './seedData';
 import usersRouter from './api/users';
+import session from 'express-session';
+import authenticate from './authenticate';
 
 dotenv.config();
 
@@ -22,12 +24,19 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-
-app.use('/api/movies', moviesRouter);
+//session middleware
+app.use(session({
+  secret: 'ilikecake',
+  resave: true,
+  saveUninitialized: true
+}));
+//update /api/Movie route
+app.use('/api/movies', authenticate, moviesRouter);
 app.use('/api/genres', genresRouter);
 //Users router
 app.use('/api/users', usersRouter);
 app.use(errHandler);
+
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
