@@ -6,9 +6,11 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner';
 import RemoveFromFavorites from "../components/cardIcons/removeFromFavorites";
 import WriteReview from "../components/cardIcons/writeReview";
+import { AuthContext } from "../contexts/authContext";
 
 const FavoriteMoviesPage = () => {
   const {favorites: movieIds } = useContext(MoviesContext);
+  const {favorites} = useContext(AuthContext);
 
   // Create an array of queries and run in parallel.
   const favoriteMovieQueries = useQueries(
@@ -35,6 +37,7 @@ const FavoriteMoviesPage = () => {
     <PageTemplate
       title="Favorite Movies"
       movies={movies}
+      movies={favorites}
       action={(movie) => {
         return (
           <>
