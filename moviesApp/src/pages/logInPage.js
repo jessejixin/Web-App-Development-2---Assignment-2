@@ -1,31 +1,38 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import AuthProvider from '../contexts/authContext'
-import LogInForm from '../components/login'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Signup from "../components/signup"
-import ForgetPassword from "../components/forgetPassword"
+import React, { useContext, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from '../contexts/authContext';
+import { Link } from "react-router-dom";
 
-export default function logInPage() {
+const LoginPage = props => {
+    const context = useContext(AuthContext)
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+  
+    const login = () => {
+      context.authenticate(userName, password);
+    };
+  
+    const { from } = props.location.state || { from: { pathname: "/" } };
+  
+    if (context.isAuthenticated === true) {
+      return <Redirect to={from} />;
+    }
     return (
-
-        <AuthProvider>
-
-        <Container className = "d-flex align-items-center justify-content-center" 
-        style={ {minHeight: "100vh"}}
-        >
-            <div className = "w-100" style ={{maxWidth:"400px"}}>
-            <Router>
-          
-                <Switch>
-                        <Route path="/login" component={LogInForm} />
-                        <Route path="/signup" component={Signup} />
-                        <Route path="/forgetPassword" component={ForgetPassword} />
-                </Switch>
-          
-                </Router>
-            </div>
-        </Container>
-        </AuthProvider>
-    )
-} 
+      <>
+        <h2>Login page</h2>
+        <p>You must log in to view the protected pages </p>
+        <input id="username" placeholder="user name" onChange={e => {
+          setUserName(e.target.value);
+        }}></input><br />
+        <input id="password" type="password" placeholder="password" onChange={e => {
+          setPassword(e.target.value);
+        }}></input><br />
+        {/* Login web form  */}
+        <button onClick={login}>Log in</button>
+        <p>Not Registered?
+        <Link to="/signup">Sign Up!</Link></p>
+      </>
+    );
+  };
+  
+  export default LoginPage;
