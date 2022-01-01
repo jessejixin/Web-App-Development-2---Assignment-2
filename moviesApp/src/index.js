@@ -60,7 +60,7 @@ const App = () => {
               <Route path="/movies/:id" component={MoviePage} />
               <Route path="/actors/home" component={ActorsPage} />
               <Route path="/actors/:id" component={ActorDetailsPage} />
-              <Route exact path="/" component={HomePage} />
+              <PrivateRoute  exact path="/" component={HomePage} />
               <Redirect from="*" to="/" />
             </Switch>
             </Suspense>
