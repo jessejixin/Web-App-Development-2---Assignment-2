@@ -46,18 +46,17 @@ const App = () => {
             {" "}
             <Suspense fallback={<h1>Loading page</h1>}>
             <Switch>
-              <PrivateRoute exact path="/movies/mustwatch" component={MustwatchMoviesPage} />
-              <PrivateRoute exact path = "/reviews/form" component = {AddMovieReviewPage} />
-              <Route exact path="/movies/upcoming" component={UpcomingMoviesPage} />
-              <Route exact path="/movies/top_rated" component={TopRatedPage} />
-              <Route exact path="/movies/popular" component={PopularPage} />
-              <Route exact path="/movies/now_playing" component={NowPlayingPage} />
               <Route exact path="/signUp" component={SignUpPage} />
               <Route exact path="/logIn" component={LogInPage} />
-              {/* <Route path="/account" component={LogOutPage} /> */}
-              <Route path="/reviews/:id" component={MovieReviewPage} />
+              <PrivateRoute exact path="/movies/mustwatch" component={MustwatchMoviesPage} />
+              <PrivateRoute exact path = "/reviews/form" component = {AddMovieReviewPage} />
+              <PrivateRoute exact path="/movies/upcoming" component={UpcomingMoviesPage} />
+              <PrivateRoute exact path="/movies/top_rated" component={TopRatedPage} />
+              <PrivateRoute exact path="/movies/popular" component={PopularPage} />
+              <PrivateRoute exact path="/movies/now_playing" component={NowPlayingPage} />
+              <PrivateRoute path="/reviews/:id" component={MovieReviewPage} />
               <PrivateRoute exact path="/movies/favorites" component={FavoriteMoviesPage} />
-              <Route path="/movies/:id" component={MoviePage} />
+              <PrivateRoute path="/movies/:id" component={MoviePage} />
               <Route path="/actors/home" component={ActorsPage} />
               <Route path="/actors/:id" component={ActorDetailsPage} />
               <PrivateRoute  exact path="/" component={HomePage} />

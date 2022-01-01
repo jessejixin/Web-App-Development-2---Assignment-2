@@ -69,32 +69,28 @@ export const getGenres = async () => {
   export const getTopRated = (args) => {
     //console.log(args)
     return fetch(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
+      // `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
+      "/api/movies/tmdb/toprated?page=1", 
+      {headers: {
+        "Authorization": window.localStorage.getItem("token")
       }
-      return response.json();
-    })
-    .catch((error) => {
-      throw error
-    });
+    }
+    ).then(res=>res.json());
   };
+
 
   export const getPopular = (args) => {
     //console.log(args)
     return fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
+      // `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
+      "/api/movies/tmdb/popular?page=1", 
+      {headers: {
+        "Authorization": window.localStorage.getItem("token")
       }
-      return response.json();
-    })
-    .catch((error) => {
-      throw error
-    });
+    }
+    ).then(res=>res.json());
   };
+
 
   export const getNowPlaying = (args) => {
     //console.log(args)

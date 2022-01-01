@@ -4,7 +4,8 @@ import uniqid from 'uniqid';
 // import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
 import { getMovies, getMovie,
-    getUpcomingMovies, getNowPlaying
+    getUpcomingMovies, getNowPlaying, getTopRated, getPopular,
+    getMovieReviews, getMovieImages
   } from '../tmdb-api';
 
 const router = express.Router(); 
@@ -26,20 +27,26 @@ router.get('/:id', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
 }));
+router.get('/:id/images', asyncHandler(async (req, res) => {
+    const id = parseInt(req.params.id);
+    const images = await getMovieImages(id);
+    if (images) {
+        res.status(200).json(images);
+    } else {
+        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+    }
+}));
 
 // Get movie reviews
-router.get('/:id/reviews', (req, res) => {
+router.get('/:id/reviews', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
-    // find reviews in list
-    if (movieReviews.id == id) {
-        res.status(200).json(movieReviews);
+    const reviews = await getMovieReviews(id);
+    if (reviews) {
+        res.status(200).json(reviews);
     } else {
-        res.status(404).json({
-            message: 'The resource you requested could not be found.',
-            status_code: 404
-        });
+        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
-});
+}));
 
 
 //Post a movie review
@@ -72,6 +79,20 @@ router.get('/tmdb/nowplaying', asyncHandler( async(req, res) => {
     page = +page; 
     const nowplayingMovies = await getNowPlaying(page);
     res.status(200).json(nowplayingMovies);
+  }));
+
+router.get('/tmdb/toprated', asyncHandler( async(req, res) => {
+    let { page = 1} = req.query; 
+    page = +page; 
+    const topratedMovies = await getTopRated(page);
+    res.status(200).json(topratedMovies);
+  }));
+
+router.get('/tmdb/popular', asyncHandler( async(req, res) => {
+    let { page = 1} = req.query; 
+    page = +page; 
+    const popularMovies = await getPopular(page);
+    res.status(200).json(popularMovies);
   }));
   
 export default router;
