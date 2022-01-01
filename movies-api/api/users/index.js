@@ -2,7 +2,8 @@ import express from 'express';
 import User from './userModel';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
-import movieModel from '../movies/movieModel';
+// import movieModel from '../movies/movieModel';
+import {getMovie} from "../tmdb-api";
 
 const router = express.Router(); // eslint-disable-line
 
@@ -59,10 +60,9 @@ router.post('/',asyncHandler( async (req, res, next) => {
 router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     const newFavourite = req.body.id;
     const userName = req.params.userName;
-    const movie = await movieModel.findByMovieDBId(newFavourite);
     const user = await User.findByUserName(userName);
-    if(!user.favourites.includes(movie._id)){
-      await user.favourites.push(movie._id);
+    if(!user.favourites.includes(newFavourite)){
+      await user.favourites.push(newFavourite);
       await user.save(); 
       res.status(201).json(user); 
     }else{
