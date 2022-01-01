@@ -70,10 +70,28 @@ router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     }
   }));
 
-  router.get('/:userName/favourites', asyncHandler( async (req, res) => {
+router.get('/:userName/favourites', asyncHandler( async (req, res) => {
     const userName = req.params.userName;
-    const user = await User.findByUserName(userName).populate('favourites');
-    res.status(200).json(user.favourites);
+    const user = await User.findByUserName(userName);
+    const userFavourites = [];
+    for(let i = 0; i < user.favourites.length; i++){
+      userFavourites[i] = await getMovie(user.favourites[i]);
+    }
+    res.status(200).json(userFavourites);
+  }));
+
+router.delete('/:userName/favourites', asyncHandler(async (req, res) => {
+    const favourite = req.body.id;
+    const userName = req.params.userName;
+    const user = await User.findByUserName(userName);
+    if(user.favourites.includes(favourite)){
+      const index = user.favourites.indexOf(favourite);
+      await user.favourites.splice(index, 1);
+      await user.save(); 
+      res.status(201).json(user);
+    } else {
+      res.status(404).json({ code: 404, msg: 'Movie is already a favourite' });
+    }
   }));
 
 export default router;
