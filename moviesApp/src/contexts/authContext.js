@@ -34,6 +34,7 @@ const AuthContextProvider = (props) => {
 
   const signout = () => {
     setTimeout(() => setIsAuthenticated(false), 100);
+    setUserName("");
   }
 
   const addToFavorites = (movie) => {
@@ -44,7 +45,7 @@ const AuthContextProvider = (props) => {
     setFavorites([...favorites, movie]);
     removeFavouriteMovies(userName, movie.id);
   }
-
+  
   return (
     <AuthContext.Provider
       value={{
