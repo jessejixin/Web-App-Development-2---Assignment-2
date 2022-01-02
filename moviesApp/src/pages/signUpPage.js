@@ -19,7 +19,7 @@ const SignUpPage = props => {
   const { from } = props.location.state || { from: { pathname: "/" } };
 
   if (registered === true) {
-    return <Redirect to="./login" />;
+    return <Redirect to={from} />;
   }
 
   return (
@@ -29,6 +29,7 @@ const SignUpPage = props => {
       <input value={userName} placeholder="user name" onChange={e => {
         setUserName(e.target.value);
       }}></input><br />
+      <p>Ensure all passwords are at least 5 characters long and contain at least one number and one letter</p>
       <input value={password} type="password" placeholder="password" onChange={e => {
         setPassword(e.target.value);
       }}></input><br />

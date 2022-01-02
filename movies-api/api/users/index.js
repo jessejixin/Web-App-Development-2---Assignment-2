@@ -20,13 +20,17 @@ router.post('/',asyncHandler( async (req, res, next) => {
       return next();
     }
     if (req.query.action === 'register') {
+      console.info("Ensure all passwords are at least 5 characters long and contain at least one number and one letter.");
       const PasswordFormat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
       if(PasswordFormat.test(req.body.password)){
+        console.info("PasswordFormat correct");
           await User.create(req.body);
           res.status(201).json({success: true, msg: 'Successful created new user.'});
-      }else{
+          console.info("Succesfully created user");
+        }else{
           res.status(401).json({success: false, msg: 'Fail created new user.'})
-      }
+          console.info("Fail created new user");
+        }
     } else {
       const user = await User.findByUserName(req.body.username);
         if (!user) return res.status(401).json({success: false, msg: 'Authentication failed. User not found.' });
