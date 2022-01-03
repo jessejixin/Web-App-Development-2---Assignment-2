@@ -55,7 +55,6 @@ TMDB_KEY=a958295b56e2a88076cb48352e2c128c
 ```
 In the terminal, the user should input the following commands.
 ```bat
-npm install
 npm start
 ```
 This will launch the React app and should also open the users default browser to port: 3000.
@@ -63,7 +62,6 @@ This will launch the React app and should also open the users default browser to
 After creating the .env file the user should open a new terminal inside the "movies-api" folder and input the following commands. 
 
 ```bat
-npm install
 npm start
 ```
 This will launch the node server on port: 8080.
