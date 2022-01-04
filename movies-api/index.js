@@ -8,8 +8,16 @@ import './seedData';
 import usersRouter from './api/users';
 import session from 'express-session';
 import passport from './authenticate';
+import loglevel from 'loglevel';
+if (process.env.NODE_ENV === 'test') {
+  loglevel.setLevel('warn')
+  } else {
+  loglevel.setLevel('info')
+  }
 
 dotenv.config();
+
+
 
 const errHandler = (err, req, res, next) => {
   /* if the error in development then send stack trace to display whole error,
@@ -38,7 +46,7 @@ app.use(errHandler);
 
 
 app.listen(port, () => {
-  console.info(`Server running at ${port}`);
+  loglevel.info(`Server running at ${port}`);
 });
 
 export default app;
