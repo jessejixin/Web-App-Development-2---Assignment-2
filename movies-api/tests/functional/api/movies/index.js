@@ -4,8 +4,8 @@ import api from "../../../../index";  // Express API application
 
 
 const expect = chai.expect;
-const currentMovieId  = 24428
-const currentMovieTitle = "The Avengers"
+const currentMovieId  = 527774
+const currentMovieTitle = "Raya and the Last Dragon"
 let newMovieId
 const newMovie = {
   backdrop_path: "/5Iw7zQTHVRBOYpA0V6z0yypOPZh.jpg",
@@ -41,6 +41,11 @@ const newMovie = {
   vote_average: 7,
   vote_count: 9692
 };
+
+const newReview ={
+    "author": "Xin Ji",
+    "content": "I am doing my assignment."
+}
 
 describe("Movies endpoint", () => {
   describe("GET /movies ", () => {
@@ -84,4 +89,39 @@ describe("Movies endpoint", () => {
     });
    });
   });
+  describe("GET /movies/:id/images", () => {
+      it("should return the matching movie's images", () => {
+        return request(api)
+          .get(`/api/movies/${currentMovieId}/images`)
+          .set("Accept", "application/json")
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.have.property("backdrops");
+          });
+      });
+    });
+  describe("GET /movies/:id/reviews", () => {
+      it("should return the matching movie's reviews", () => {
+        return request(api)
+          .get(`/api/movies/${currentMovieId}/reviews`)
+          .set("Accept", "application/json")
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.a("array");
+          });
+      });
+    });
+  describe("POST /movies/:id/reviews", () => {
+      it("should return the matching movie's reviews", () => {
+        return request(api)
+          .post(`/api/movies/${currentMovieId}/reviews`)
+          .send(newReview)
+          .expect(201)
+          .then((res) => {
+            expect(res.body).to.have.property("author","Xin Ji");
+          });
+      });
+    });
 });
